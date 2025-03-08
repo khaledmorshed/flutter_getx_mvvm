@@ -1,5 +1,7 @@
 import 'package:logger/logger.dart';
 
+import '../app/core/values/app_values.dart';
+
 class EnvConfig{
   final String appName;
   final String baseUrl;
@@ -14,7 +16,15 @@ class EnvConfig{
   }){
     logger = Logger(
       printer: PrettyPrinter(
-
+        methodCount: AppValues.loggerMethodCount,
+        // number of method calls to be displayed
+        errorMethodCount: AppValues.loggerErrorMethodCount,
+        // number of method calls if stacktrace is provided
+        lineLength: AppValues.loggerLineLength,
+        // width of the output
+        colors: true,
+        // Colorful log messages
+        printEmojis: true,
       ),
     );
   }

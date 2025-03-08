@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getx_mvvm/app/core/base/theme/theme.dart';
+import '../../../../flavors/build_config.dart';
+import '../../../../flavors/env_config.dart';
+import '../../../data/local/preference/preference_manager.dart';
+import '../../../data/local/preference/preference_manager_impl.dart';
 import '../../values/app_colors/all_colors_export.dart';
 import 'extension_theme/check_box_extension.dart';
 import 'extension_theme/container_extension.dart';
@@ -11,7 +17,7 @@ import 'extension_theme/text_button_extension.dart';
 import 'extension_theme/text_extension.dart';
 import 'extension_theme/text_form_feild_extension.dart';
 
-class AppTheme{
+class AppThemeData{
 
   // light theme
   static final lightTheme = ThemeData(
@@ -87,8 +93,30 @@ class AppTheme{
         customIconWidgetWithBackGroundDarkTheme,
         checkBoxThemeDarkExtension,
       ]
-
   );
 
+
+  ThemeData getTheme(){
+    final EnvConfig envConfig = BuildConfig.instance.envConfig;
+    final PreferenceManager preferenceManager = PreferenceManagerImpl();
+    String savedTheme = preferenceManager.getString(
+        PreferenceManager.theme,
+        defaultValue: AppTheme.system.name
+    );
+    envConfig.logger.i("Saved Theme: $savedTheme");
+    if(savedTheme == AppTheme.dark.name){
+      return AppThemeData.darkThem;
+    }else if(savedTheme == AppTheme.light.name){
+      return AppThemeData.lightTheme;
+    }else{
+      return _getThemeSameAsSystem();
+    }
+  }
+
+  ThemeData _getThemeSameAsSystem() {
+    return Get.isPlatformDarkMode
+        ? AppThemeData.darkThem
+        : AppThemeData.lightTheme;
+  }
 
 }

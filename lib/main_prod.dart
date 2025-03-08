@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'app/data/local/preference/preference_manager.dart';
+import 'app/my_app.dart';
+import 'flavors/build_config.dart';
+import 'flavors/env_config.dart';
+import 'flavors/environment.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main()async {
+  EnvConfig devConfig = EnvConfig(
+    appName: "Flutter GetX MVVM",
+    baseUrl: "https://",
+    shouldCollectCrashLog: true,
+  );
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  BuildConfig.instantiate(
+    envType: Environment.development,
+    envConfig: devConfig,
+  );
+
+  await GetStorage.init(PreferenceManager.preferenceDataBaseName);
+
+  runApp(MyApp());
 }
 
