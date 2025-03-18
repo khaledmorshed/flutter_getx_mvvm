@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,9 @@ import 'package:getx_mvvm/flavors/build_config.dart';
 import 'package:getx_mvvm/l10n/app_localizations.dart';
 import 'package:logger/logger.dart';
 
+// ignore: must_be_immutable
 abstract class BaseView<Controller extends BaseController> extends GetView<Controller>{
+  BaseView({super.key});
 
   final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
@@ -19,6 +20,7 @@ abstract class BaseView<Controller extends BaseController> extends GetView<Contr
   final Logger logger = BuildConfig.instance.envConfig.logger;
 
   late ThemeData _theme;
+
   ThemeData get theme => _theme;
 
   Widget body(BuildContext context);
