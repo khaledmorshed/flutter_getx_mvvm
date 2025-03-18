@@ -7,10 +7,8 @@ import 'package:getx_mvvm/app/data/local/preference/preference_manager.dart';
 import 'package:getx_mvvm/app/data/local/preference/preference_manager_impl.dart';
 import 'package:getx_mvvm/flavors/build_config.dart';
 import 'package:getx_mvvm/flavors/env_config.dart';
-
 import '../l10n/app_localizations.dart';
 import 'core/base/theme/app_theme.dart';
-import 'core/base/theme/theme.dart';
 
 class MyApp extends StatefulWidget {
   MyApp({super.key});
