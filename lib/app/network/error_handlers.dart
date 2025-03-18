@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:getx_mvvm/app/network/exceptions/app_exception.dart';
 import 'package:getx_mvvm/app/network/exceptions/network_exception.dart';
 import 'package:getx_mvvm/app/network/exceptions/timeout_exception.dart';
 import 'package:getx_mvvm/flavors/build_config.dart';
+
+import 'exceptions/api_exception.dart';
+import 'exceptions/not_found_exception.dart';
+import 'exceptions/service_unavailable_exception.dart';
 
 // error when dio do not catch error
 Exception handleGenericError(String error){
@@ -26,6 +32,10 @@ Exception handleDioError(DioException dioError){
       return TimeoutException("Send timeout in connection with API server");
     case DioExceptionType.badResponse:
       return _parseDioErrorResponse(dioError);
+    case DioExceptionType.badCertificate:
+      return AppException(message: 'Bad certificate');
+    case DioExceptionType.unknown:
+      return NetworkException("There is no internet connection");
   }
 
 }
@@ -36,35 +46,30 @@ Exception _parseDioErrorResponse(DioException dioError){
   String? status;
   String? serverMessage;
 
-}
-
-
-
-//        return getErrorMessage(error.response!.data, error)
-getErrorMessage(dynamic data, DioException error){
-  if(data == null) return "Something went wrong";
-  if(data == "") return "Something went wrong";
   try{
-    if(data.containsKey("message")){
-      return ApiResponseModel(
-        response: error.response,
-        apiMessage: data["message"],
-      );
-    }else if(data.containsKey("error")){
-      return ApiResponseModel(
-        response: error.response,
-        apiMessage: data["error"],
-      );
+    if(statusCode == -1 || statusCode == HttpStatus.ok){
+      statusCode = dioError.response?.data["statusCode"];
     }
-  }catch(e){
-    return "Something went wrong";
+    status = dioError.response?.data["status"];
+    serverMessage = dioError.response?.data["message"];
+  }catch(e, s){
+    logger.i(e);
+    logger.i(s.toString());
+    serverMessage = "Something went wrong. Please try again later.";
   }
-  return "";
-}
 
-/*
+  switch (statusCode) {
+    case HttpStatus.serviceUnavailable:
+      return ServiceUnavailableException("Service Temporarily Unavailable");
+    case HttpStatus.notFound:
+      return NotFoundException(serverMessage ?? "", status ?? "");
     case 404:
     case 500:
     case 503:
     default:
- */
+      return ApiException(
+          httpCode: statusCode,
+          status: status ?? "",
+          message: serverMessage ?? "");
+  }
+}
