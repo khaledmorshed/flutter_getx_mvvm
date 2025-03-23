@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:getx_mvvm/app/core/base/base_view.dart';
 import 'package:getx_mvvm/app/modules/home/views/home_view.dart';
 import 'package:getx_mvvm/app/modules/main/controllers/main_controller.dart';
+import 'package:getx_mvvm/app/modules/main/view/bottom_nav_bar.dart';
 import 'package:getx_mvvm/app/modules/other/views/other_view.dart';
 
 import '../../settings/views/settings_view.dart';
@@ -25,7 +26,7 @@ class MainView extends BaseView<MainController>{
 
   @override
   Widget? bottomNavigationBar() {
-    return
+    return BottomNavBar(onBottomNavItemSelected: controller.onMenuSelected);
   }
 
   final HomeView homeView = HomeView();
@@ -40,7 +41,5 @@ class MainView extends BaseView<MainController>{
         return OtherView();
     }
   }
-
-
 
 }
