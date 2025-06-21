@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_mvvm/app/core/bindings/initial_bindings.dart';
 import 'package:getx_mvvm/app/core/values/app_languages.dart';
 import 'package:getx_mvvm/app/data/local/preference/preference_manager.dart';
 import 'package:getx_mvvm/app/data/local/preference/preference_manager_impl.dart';
+import 'package:getx_mvvm/app/routes/app_pages.dart';
 import 'package:getx_mvvm/flavors/build_config.dart';
 import 'package:getx_mvvm/flavors/env_config.dart';
 import '../l10n/app_localizations.dart';
@@ -31,6 +33,8 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: _envConfig.appName,
+      initialRoute: AppPages.INITIAL,
+      initialBinding: InitialBinding(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme:  AppThemeData().getTheme(),
       supportedLocales: _getSupportedLocal(),
