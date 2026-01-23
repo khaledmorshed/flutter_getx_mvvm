@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../../core/base/theme/app_theme.dart';
-import '../../../core/base/theme/theme.dart';
+import '../../../core/base/theme/theme_extension.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../data/local/preference/preference_manager.dart';
 import '../../../data/local/preference/preference_manager_impl.dart';

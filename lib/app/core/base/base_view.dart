@@ -29,6 +29,7 @@ abstract class BaseView<Controller extends BaseController> extends GetView<Contr
 
   @override
   Widget build(BuildContext context) {
+    _theme = context.theme;
     return GestureDetector(
       child: Stack(
         children: [

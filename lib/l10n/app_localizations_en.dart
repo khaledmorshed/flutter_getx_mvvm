@@ -12,9 +12,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bottomNavHome => 'Home';
 
   @override
-  String get bottomNavFavorite => 'Favorite';
-
-  @override
   String get bottomNavSettings => 'Settings';
 
   @override

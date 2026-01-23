@@ -1,5 +1,6 @@
 abstract class PreferenceManager {
   static const preferenceDataBaseName = "flutter_getx_mvvm";
+  static const tenant = "tenant";
   static const token = "token";
   static const theme = "theme";
   static const language = "language";

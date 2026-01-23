@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvvm/app/core/base/theme/theme.dart';
 import '../../../../flavors/build_config.dart';
 import '../../../../flavors/env_config.dart';
 import '../../../data/local/preference/preference_manager.dart';
@@ -16,6 +15,7 @@ import 'extension_theme/icon_extension.dart';
 import 'extension_theme/text_button_extension.dart';
 import 'extension_theme/text_extension.dart';
 import 'extension_theme/text_form_feild_extension.dart';
+import 'theme_extension.dart';
 
 class AppThemeData{
 
@@ -37,7 +37,7 @@ class AppThemeData{
           backgroundColor: AppColors.appPrimaryColorLight
       ),
       disabledColor: AppColors.disableColorLight,
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         backgroundColor: AppColors.whiteOnly,
         titleTextStyle: TextStyle(
           color: AppColors.appPrimaryColorLight,
@@ -72,7 +72,7 @@ class AppThemeData{
       ),
       iconTheme:  const IconThemeData(color: AppColors.whiteOnly, opacity: 0.8),
       disabledColor: AppColors.disableColorDark,
-      dialogTheme: const DialogTheme(
+      dialogTheme:  DialogThemeData(
         backgroundColor: AppColors.whiteOnly,
         titleTextStyle: TextStyle(
           color: AppColors.appPrimaryColorDark,
@@ -103,7 +103,7 @@ class AppThemeData{
         PreferenceManager.theme,
         defaultValue: AppTheme.system.name
     );
-    envConfig.logger.i("Saved Theme: $savedTheme");
+   // envConfig.logger.i("Saved Theme: $savedTheme");
     if(savedTheme == AppTheme.dark.name){
       return AppThemeData.darkThem;
     }else if(savedTheme == AppTheme.light.name){

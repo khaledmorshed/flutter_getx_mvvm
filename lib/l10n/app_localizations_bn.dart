@@ -12,9 +12,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get bottomNavHome => 'হোম';
 
   @override
-  String get bottomNavFavorite => 'ফেভারিট';
-
-  @override
   String get bottomNavSettings => 'সেটিংস';
 
   @override

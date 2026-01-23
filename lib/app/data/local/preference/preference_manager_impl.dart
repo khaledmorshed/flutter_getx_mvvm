@@ -3,6 +3,17 @@ import 'package:get_storage/get_storage.dart';
 import '/app/data/local/preference/preference_manager.dart';
 
 class PreferenceManagerImpl implements PreferenceManager {
+
+  // --- Singleton implementation ---
+  static final PreferenceManagerImpl _instance = PreferenceManagerImpl._internal();
+
+  factory PreferenceManagerImpl() {
+    return _instance;
+  }
+
+  PreferenceManagerImpl._internal();
+
+  // --- Storage initialization ---
   final GetStorage _storage = GetStorage(PreferenceManager.preferenceDataBaseName);
 
   @override

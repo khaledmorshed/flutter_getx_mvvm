@@ -21,6 +21,8 @@ fun loadPropertiesFile(fileName: String): Properties {
 val localProperties = loadPropertiesFile("local.properties")
 val keystoreProperties = loadPropertiesFile("key.properties")
 val flutterRoot = localProperties.getProperty("flutter.sdk")
+
+val flutterMinSdk = localProperties.getProperty("flutter.minSdkVersion")?.toInt() ?: 23
 val flutterVersionCode = localProperties.getProperty("flutter.versionCode")
 val flutterVersionName = localProperties.getProperty("flutter.versionName")
 
@@ -44,7 +46,7 @@ fun getCurrentFlavor(): String {
 
 android {
     namespace = "com.example.getx_mvvm"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.2.12479018"
 
     compileOptions {
@@ -61,8 +63,8 @@ android {
         applicationId = "com.example.getx_mvvm"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21
-        targetSdk = 35
+        minSdk = 24
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -100,6 +102,7 @@ android {
 }
 
 flutter {
+    println("👉 Current flavor detected:........... ${getCurrentFlavor()}")
     source = "../.."
     target = "lib/main_" + getCurrentFlavor() + ".dart"
 }

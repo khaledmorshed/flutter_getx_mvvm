@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: _envConfig.appName,
       initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
       initialBinding: InitialBinding(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme:  AppThemeData().getTheme(),
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       appLanguage = AppLanguages.en.name;
     }
     if(!widget._didLanguageSet){
-      _envConfig.logger.i("AppLanguage: $appLanguage");
+      //_envConfig.logger.i("AppLanguage: $appLanguage");
       WidgetsBinding.instance.addPostFrameCallback((_){
         widget._didLanguageSet = true;
         Get.updateLocale(Locale(appLanguage));
