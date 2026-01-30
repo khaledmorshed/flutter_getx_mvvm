@@ -18,6 +18,12 @@ import '../model/menu_code.dart' show MenuCode;
 
 class MainView extends BaseView<MainController>{
 
+  final List<Widget> _pages = [
+    HomeView(),
+    SettingsView(),
+    OtherView(),
+  ];
+
   @override
   PreferredSizeWidget? appBar(BuildContext context)=>null;
 
@@ -27,54 +33,62 @@ class MainView extends BaseView<MainController>{
       key: UniqueKey(),
       child: Obx(() => IndexedStack(
         index: _getSelectedIndex(controller.selectedMenuCode),
-        children: [
-          // Home Tab with Nested Navigation
-          Navigator(
-            key: Get.nestedKey(1),
-            onGenerateRoute: (settings) {
-              if (settings.name == '/' || settings.name == Routes.HOME) {
-                 return GetPageRoute(
-                  page: () => HomeView(),
-                  binding: HomeBinding(),
-                );
-              }
-              // Handle other routes inside Home Tab
-               if (settings.name == Routes.CLIENT) {
-                 return GetPageRoute(
-                  page: () => ClientView(),
-                  binding: ClientBinding(),
-                );
-              }
-               if (settings.name == Routes.CREATE_CLIENT) {
-                 return GetPageRoute(
-                  page: () => CreateClientView(),
-                  binding: ClientBinding(), // Or specific binding
-                );
-              }
-              return GetPageRoute(
-                page: () => SettingsView(),
-                binding: SettingsBinding(), // Or specific binding
-              );
-            },
-          ),
-          
-          //Settings Tab (Example of simple view, can also be a Navigator if needed)
-           Navigator(
-            key: Get.nestedKey(2),
-             onGenerateRoute: (settings) {
-               return GetPageRoute(
-                 page: () => settingsView ?? SettingsView(),
-                 binding: SettingsBinding(),
-               );
-             }
-           ),
+        children: _pages.asMap().entries.map((entry) {
+            int idx = entry.key;
+            Widget page = entry.value;
+            // Use Nested Key based on index (1-based for GetX nested keys to avoid 0/root issues if any)
+            // Home=1, Settings=2, Other=3
+            int nestedKey = idx + 1; 
 
-          // Other Tab
-          OtherView(),
-        ],
+            return Navigator(
+              key: Get.nestedKey(nestedKey),
+              onGenerateRoute: (settings) => _onGenerateRoute(settings, page),
+            );
+          }).toList(),
       )),
     );
   }
+
+  Route? _onGenerateRoute(RouteSettings settings, Widget rootPage) {
+     // If root path ('/') or specific route for this tab, show the rootPage
+     if (settings.name == '/' || _isRootRoute(settings.name)) {
+         return GetPageRoute(
+            page: () => rootPage,
+            // You might need logic to determine correct binding for rootPage if not auto-injected
+            // For now, let's assume Bindings are handled or we need a map for them too.
+            // A safer way is to rely on GetPage lookup even for root if possible, or manual.
+            binding: _getBindingForPage(rootPage),
+         );
+     }
+
+      // Dynamic Route Generation from AppPages
+      final GetPage? route = AppPages.routes.firstWhereOrNull(
+        (GetPage page) => page.name == settings.name,
+      );
+
+      if (route != null) {
+        return GetPageRoute(
+          page: route.page,
+          binding: route.binding,
+          settings: settings,
+        );
+      }
+      
+      return null;
+  }
+
+  // Helper to check if route is a root route (convention)
+  bool _isRootRoute(String? name) {
+     return name == Routes.HOME || name == Routes.SETTINGS || name == Routes.OTHERS;
+  }
+
+  Bindings? _getBindingForPage(Widget page) {
+    if (page is HomeView) return HomeBinding();
+    if (page is SettingsView) return SettingsBinding();
+    // OtherView binding can be here if needed
+    return null;
+  }
+
 
   @override
   Widget? bottomNavigationBar() {
@@ -88,22 +102,32 @@ class MainView extends BaseView<MainController>{
 
   @override
   Widget pageScaffold(BuildContext context) {
-    // Override pageScaffold to explicitly use the controller's key for the root scaffold
-    return Scaffold(
-      key: controller.scaffoldKey, // Use key from controller
-      backgroundColor: pageBackGroundColor(),
-      appBar: appBar(context),
-      body: pageContent(context),
-      bottomNavigationBar: bottomNavigationBar(),
-      drawer: drawer(),
-      bottomSheet: bottomSheet() != null ? Wrap(children: [bottomSheet()!]) : null,
-      floatingActionButton: floatingActionButton(),
+    return WillPopScope(
+      onWillPop: () async {
+        // Logic to handle back navigation for nested navigators
+        int selectedIndex = _getSelectedIndex(controller.selectedMenuCode);
+        int nestedKey = selectedIndex + 1;
+
+        final navigator = Get.nestedKey(nestedKey);
+        if (navigator?.currentState?.canPop() == true) {
+          navigator!.currentState!.pop();
+          return false; 
+        }
+        
+        return true; 
+      },
+      child: Scaffold(
+        key: controller.scaffoldKey, 
+        backgroundColor: pageBackGroundColor(),
+        appBar: appBar(context),
+        body: pageContent(context),
+        bottomNavigationBar: bottomNavigationBar(),
+        drawer: drawer(),
+        bottomSheet: bottomSheet() != null ? Wrap(children: [bottomSheet()!]) : null,
+        floatingActionButton: floatingActionButton(),
+      ),
     );
   }
-
-
-  final HomeView homeView = HomeView();
-  SettingsView? settingsView;
 
   int _getSelectedIndex(MenuCode menuCode) {
     switch (menuCode) {
@@ -112,7 +136,7 @@ class MainView extends BaseView<MainController>{
       case MenuCode.settings:
         return 1;
       default:
-        return 2;
+        return 1; // Default to index 1 or 2 as needed
     }
   }
 

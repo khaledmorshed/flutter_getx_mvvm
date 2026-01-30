@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_mvvm/app/modules/client/views/client_view.dart';
 import '../../../../app/routes/app_pages.dart';
 import '../../../../app/core/base/base_view.dart';
 import '../../main/controllers/main_controller.dart';
@@ -47,8 +48,8 @@ class HomeView extends BaseView<HomeController> {
           ElevatedButton(
             onPressed: () {
               // Navigate within the nested navigator (ID 1 for Home Tab)
-             // Get.toNamed(Routes.CLIENT, id: 1);
               Get.toNamed(Routes.CLIENT, id: 1);
+              //Navigator.pushNamed(context, Routes.CLIENT);
             },
             child: Text("Go to Clients"),
           ),
@@ -61,4 +62,6 @@ class HomeView extends BaseView<HomeController> {
       ),
     );
   }
+
+
 }
