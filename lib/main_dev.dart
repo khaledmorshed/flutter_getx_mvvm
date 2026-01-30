@@ -11,7 +11,7 @@ void main()async {
 
   EnvConfig devConfig = EnvConfig(
     appName: "Flutter GetX MVVM",
-    baseUrl: "https://",
+    baseUrl: "https://api.firewoodlpg.com/api/v1/",
     shouldCollectCrashLog: true,
   );
 

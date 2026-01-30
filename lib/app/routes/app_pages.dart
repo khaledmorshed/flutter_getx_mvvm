@@ -1,7 +1,7 @@
 
 import 'package:get/get.dart';
-import 'package:getx_mvvm/app/modules/login/bindings/login_binding.dart';
-import 'package:getx_mvvm/app/modules/login/views/login_view.dart';
+import 'package:getx_mvvm/app/modules/auth/bindings/login_binding.dart';
+import 'package:getx_mvvm/app/modules/auth/views/login_view.dart';
 import 'package:getx_mvvm/app/modules/splash/views/splash_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
@@ -15,6 +15,8 @@ import '../modules/settings/views/settings_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/tenant/bindings/tenant_binding.dart';
 import '../modules/tenant/views/tenant_view.dart';
+import '../modules/client/bindings/client_binding.dart';
+import '../modules/client/views/client_view.dart';
 
 part  'app_routes.dart';
 
@@ -60,6 +62,11 @@ class AppPages{
       name: _Paths.OTHERS,
       page: () => OtherView(),
       binding: OtherBinding(),
+    ),
+    GetPage(
+      name: _Paths.CLIENT,
+      page: () => ClientView(),
+      binding: ClientBinding(),
     ),
   ];
 

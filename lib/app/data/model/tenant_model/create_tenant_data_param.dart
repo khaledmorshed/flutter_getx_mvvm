@@ -7,7 +7,7 @@ class CreateTenantDataParam{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['tenant'] = tenant;
+    data['domain'] = tenant;
     return data;
   }
 }

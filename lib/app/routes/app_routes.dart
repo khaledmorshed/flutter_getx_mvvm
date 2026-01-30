@@ -9,6 +9,8 @@ abstract class Routes{
   static const SETTINGS = _Paths.SETTINGS;
   static const OTHERS = _Paths.OTHERS;
   static const TENANT = _Paths.TENANT;
+  static const CLIENT = _Paths.CLIENT;
+  static const CREATE_CLIENT = _Paths.CREATE_CLIENT;
   static const LOGIN = _Paths.LOGIN;
 }
 
@@ -20,5 +22,7 @@ abstract class _Paths{
   static const SETTINGS = '/settings';
   static const OTHERS = '/others';
   static const TENANT = '/tenant';
+  static const CLIENT = '/client';
+  static const CREATE_CLIENT = '/create-client';
 
 }

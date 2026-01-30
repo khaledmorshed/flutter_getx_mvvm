@@ -50,6 +50,7 @@ flutter:
 
   assets:
     - images/
+    - images/svg/
   fonts:
     - family: Roboto
       fonts:

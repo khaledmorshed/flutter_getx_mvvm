@@ -38,13 +38,13 @@ class SplashController extends BaseController {
       String token = TokenCheck.getUserToken();
 
       if(tenant.isEmpty || tenant == ""){
-        Get.offAllNamed(Routes.HOME,);
+        Get.offAllNamed(Routes.TENANT,);
        // Navigator.pushNamedAndRemoveUntil(context, InstallationScreen.route, (route)=>false);
       }
       else{
-        if(tenant.isEmpty || tenant == ""){
+        if(token.isEmpty || token == ""){
           // login
-          Get.offAllNamed(Routes.HOME,);
+          Get.offAllNamed(Routes.LOGIN,);
         }else{
           Get.offAllNamed(Routes.MAIN,);
         }

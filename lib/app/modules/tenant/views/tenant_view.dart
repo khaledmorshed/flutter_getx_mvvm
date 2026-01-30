@@ -19,25 +19,24 @@ class TenantView extends BaseView<TenantController> {
 
   @override
   Widget body(BuildContext context) {
-    return Obx((){
-        return Column(
-          children: [
-            CustomTextFormField(
-              controller: controller.name,
-            ),
-            CustomTextFormField(
-              controller: controller.email,
-            ),
-            CustomTextFormField(
-              controller: controller.tenantController,
-            ),
-            ElevatedButton(onPressed: (){
-              controller.onVerifyTenant();
-            }, child: Text("submit"))
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomTextFormField(
+            labelText: "Store Name",
+            controller: controller.tenantController,
+          ),
+          SizedBox(height: 15,),
+          ElevatedButton(onPressed: (){
+            controller.onVerifyTenant();
+            }, child: Text("submit"),
+          )
 
-          ],
-        );
-      }
+        ],
+      ),
     );
   }
 }

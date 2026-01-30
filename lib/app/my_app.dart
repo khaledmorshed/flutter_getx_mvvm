@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvvm/app/core/bindings/initial_bindings.dart';
 import 'package:getx_mvvm/app/core/values/app_languages.dart';
@@ -30,15 +31,22 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     _localizeApp();
 
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: _envConfig.appName,
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-      initialBinding: InitialBinding(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      theme:  AppThemeData().getTheme(),
-      supportedLocales: _getSupportedLocal(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812), // Standard iOS design size, adjust if needed
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: _envConfig.appName,
+          initialRoute: AppPages.INITIAL,
+          getPages: AppPages.routes,
+          initialBinding: InitialBinding(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          theme: AppThemeData().getTheme(),
+          supportedLocales: _getSupportedLocal(),
+        );
+      },
     );
   }
 

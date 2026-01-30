@@ -12,8 +12,8 @@ class TenantRemoteDataSourceImpl extends BaseRemoteSource implements TenantRemot
 
   @override
   Future<TenantModel> verifyTenant(CreateTenantDataParam data, {bool storeDataInLocal = false})async {
-    var endpoint = "${DioProvider.baseUrl}/tenants/verify";
-    var dioCall = dioClient.get(endpoint, queryParameters: data.toJson());
+    var endpoint = "${DioProvider.baseUrl}tenants/verify";
+    var dioCall = dioClient.post(endpoint, data: data.toJson());
 
     try {
       //return callApiWithErrorParser(dioCall).then((response) => _parseTenantResponse(response));
